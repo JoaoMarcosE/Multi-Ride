@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>multi-ride-front</title>
-    <script src="http://localhost:8098"></script>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but multi-ride-front doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="en" style="width: 100%">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>Multi Ride</title>
+  <script src="http://localhost:8098"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQw8cTYAkLkpM-4oVGjxZ_SkUVNbNb2jU&libraries=places&callback=initAutocomplete"
+    async defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script>
+    function initAutocomplete() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: -33.8688, lng: 151.2195 },
+        zoom: 13,
+        mapTypeId: 'roadmap'
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but multi-ride-front doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
