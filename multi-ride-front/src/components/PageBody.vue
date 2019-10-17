@@ -6,15 +6,19 @@
     <div class="pick-destination-place">
       <PickLocation text="Destination" />
     </div>
+    <div class="map-frame">
+      <Map />
+    </div>
   </div>
 </template>
 
 <script>
 import PickLocation from "./PickLocation.vue";
+import Map from "./Map.vue";
 
 export default {
   name: "PageBody",
-  components: { PickLocation },
+  components: { PickLocation, Map },
   data() {
     return {};
   },
