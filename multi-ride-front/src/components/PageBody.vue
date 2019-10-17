@@ -1,44 +1,24 @@
 <template>
   <div class="page-body">
     <div class="pick-starting-place">
-      <PickLocation
-        text="Starting Place"
-        :googleAPI="googleAPI"
-        :googleAPIPromise="googleAPIPromise"
-      />
+      <PickLocation text="Starting Place" />
     </div>
     <div class="pick-destination-place">
-      <PickLocation text="Destination" :googleAPI="googleAPI" :googleAPIPromise="googleAPIPromise" />
+      <PickLocation text="Destination" />
     </div>
   </div>
 </template>
 
 <script>
-import GoogleMapsApiLoader from "google-maps-api-loader";
 import PickLocation from "./PickLocation.vue";
 
 export default {
   name: "PageBody",
-  props: { googleAPI: Object },
   components: { PickLocation },
   data() {
-    return {
-      googleAPIPromise: null
-    };
+    return {};
   },
-  beforeCreate() {
-    console.log("Inicio beforeCreate");
-    debugger;
-    this.googleAPIPromise = GoogleMapsApiLoader({
-      libraries: ["places"],
-      apiKey: ""
-    }).then(googleMapApi => {
-      debugger
-      this.googleAPI = googleMapApi;
-    });
-
-    console.log("Fim beforeCreate");
-  }
+  beforeCreate() {}
 };
 </script>
 

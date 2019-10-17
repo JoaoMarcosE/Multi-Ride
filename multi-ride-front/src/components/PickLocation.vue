@@ -12,46 +12,33 @@
 </template>
 
 <script>
+import GoogleMapsLoader from "google-maps";
 export default {
   name: "PickLocation",
   props: {
-    text: String,
-    googleAPIPromise: Object,
-    googleAPI: Object
+    text: String
   },
   data() {
     return {
-      autoCompleteObj: null
+      autoCompleteObj: null,
+      googleService: null
     };
   },
-  async mounted() {
-    console.log("Inicio mounted");
-    await this.googleAPIPromise;
-    this.initializeGoogle();
-    console.log("Fim mounted");
+  mounted() {
+    GoogleMapsLoader.LIBRARIES = ["places"];
+    GoogleMapsLoader.KEY = "";
+    GoogleMapsLoader.load(google => {
+      this.googleService = google;
+      this.initializeGoogle();
+    });
   },
   methods: {
-    geolocate() {
-      // if (navigator.geolocation) {
-      //   var autoCompleteField = this.autoCompleteObj
-      //   navigator.geolocation.getCurrentPosition((position) => {
-      //     var geolocation = {
-      //       lat: position.coords.latitude,
-      //       lng: position.coords.longitude
-      //     };
-      //     var circle = new this.googleAPI.maps.Circle({
-      //       center: geolocation,
-      //       radius: position.coords.accuracy
-      //     });
-      //     this.autoCompleteObj.setBounds(circle.getBounds());
-      //   });
-      // }
-    },
+    geolocate() {},
     initializeGoogle() {
       // Create the autocomplete object, restricting the search predictions to
       // geographical location types.
-      debugger
-      this.autoCompleteObj = new this.googleAPI.maps.places.Autocomplete(
+
+      this.autoCompleteObj = new this.googleService.maps.places.Autocomplete(
         this.$refs.picklocation,
         { types: ["geocode"] }
       );
@@ -62,7 +49,6 @@ export default {
       // address fields in the form.
       this.autoCompleteObj.addListener("place_changed", () => {
         var place = this.autoCompleteObj.getPlace();
-
         // Get each component of the address from the place details,
         // and then fill-in the corresponding field on the form.
         for (var i = 0; i < place.address_components.length; i++) {
