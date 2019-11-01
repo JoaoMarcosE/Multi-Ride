@@ -1,11 +1,13 @@
 <template>
   <div class="form-group map-group">
-    <div id="map"></div>
+    <div id="map-visualizer"></div>
   </div>
 </template>
 
 <script>
 import GoogleMapsLoader from "google-maps";
+import { mapState } from "vuex";
+
 export default {
   name: "Map",
   props: {},
@@ -14,12 +16,25 @@ export default {
       mapObj: null,
       googleService: null,
       directionsService: null,
-      directionsRenderer: null
+      directionsRenderer: null,
+      startingLocation: null,
+      destinationLocation: null
     };
+  },
+  computed: mapState(["starting", "destination"]),
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === "updateStarting") {
+        this.startingLocation = state.starting;
+      } else if (mutation.type === "updateDestination") {
+        this.destinationLocation = state.destination;
+      }
+      this.refreshRoute();
+    });
   },
   mounted() {
     GoogleMapsLoader.LIBRARIES = ["places"];
-    GoogleMapsLoader.KEY = "";
+    GoogleMapsLoader.KEY = localStorage.getItem("keyGoogleAPI");
     GoogleMapsLoader.load(google => {
       this.googleService = google;
       this.initializeMap();
@@ -29,11 +44,16 @@ export default {
     createMap(currentLocation) {
       this.directionsService = new this.googleService.maps.DirectionsService();
       this.directionsRenderer = new this.googleService.maps.DirectionsRenderer();
+
       this.mapObj = new this.googleService.maps.Map(
-        document.getElementById("map"),
-        { zoom: 7, center: currentLocation }
+        document.getElementById("map-visualizer"),
+        { zoom: 17, center: currentLocation }
       );
+
       this.directionsRenderer.setMap(this.mapObj);
+    },
+    setMapLocation(location) {
+      this.mapObj.setCenter(location);
     },
     initializeMap() {
       if (navigator.geolocation) {
@@ -46,8 +66,41 @@ export default {
           this.createMap(currentLocation);
         });
       } else {
-        //initialize without location
         this.createMap(null);
+      }
+    },
+    refreshRoute() {
+      console.log("refresh na rota");
+      debugger;
+      if (this.startingLocation && this.destinationLocation) {
+        let request = {
+          origin: this.startingLocation,
+          destination: this.destinationLocation,
+          travelMode: "DRIVING"
+        };
+
+        this.directionsService.route(request, (result, status) => {
+          debugger;
+
+          if (status == "OK") {
+            this.directionsRenderer.setDirections(result);
+          }
+        });
+      } else {
+        //sem as duas posições, então volta ao original
+        if (navigator.geolocation) {
+          //initialize with current location
+          navigator.geolocation.getCurrentPosition(position => {
+            let currentLocation = new this.googleService.maps.LatLng(
+              position.coords.latitude,
+              position.coords.longitude
+            );
+            this.setMapLocation(currentLocation);
+          });
+        } else {
+          this.setMapLocation(null);
+        }
+        this.directionsRenderer.setDirections(null);
       }
     }
   }
@@ -57,14 +110,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#map {
-  margin-right: 400px;
-  height: 100%;
+.map-group {
+  width: 100%;
+  margin: auto;
+  padding: 0px;
+  margin-top: 20px;
+}
+
+#map-visualizer {
+  height: 200px; /* The height is 400 pixels */
+  width: 100%; /* The width is the width of the web page */
 }
 @media print {
-  #map {
-    height: 500px;
-    margin: 0;
+  #map-visualizer {
+    height: 200px; /* The height is 400 pixels */
+    width: 100%; /* The width is the width of the web page */
   }
 }
 </style>

@@ -1,13 +1,7 @@
 <template>
   <div class="form-group location-group">
     <label>{{text}}</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Informe um local"
-      ref="picklocation"
-      @focus="geolocate"
-    />
+    <input type="text" class="form-control" placeholder="Informe um local" ref="picklocation" />
   </div>
 </template>
 
@@ -16,7 +10,8 @@ import GoogleMapsLoader from "google-maps";
 export default {
   name: "PickLocation",
   props: {
-    text: String
+    text: String,
+    locationKey: String
   },
   data() {
     return {
@@ -26,21 +21,20 @@ export default {
   },
   mounted() {
     GoogleMapsLoader.LIBRARIES = ["places"];
-    GoogleMapsLoader.KEY = "";
+    GoogleMapsLoader.KEY = localStorage.getItem("keyGoogleAPI");
     GoogleMapsLoader.load(google => {
       this.googleService = google;
       this.initializeGoogle();
     });
   },
   methods: {
-    geolocate() {},
     initializeGoogle() {
       // Create the autocomplete object, restricting the search predictions to
       // geographical location types.
 
       this.autoCompleteObj = new this.googleService.maps.places.Autocomplete(
         this.$refs.picklocation,
-        { types: ["geocode"] }
+        { types: ["geocode"], fields: ['geometry.location', 'address_components'] }
       );
       // Avoid paying for data that you don't need by restricting the set of
       // place fields that are returned to just the address components.
@@ -49,6 +43,16 @@ export default {
       // address fields in the form.
       this.autoCompleteObj.addListener("place_changed", () => {
         var place = this.autoCompleteObj.getPlace();
+
+        this.$store.dispatch(
+          "fetch_" + this.locationKey,
+          place.geometry ? 
+          new this.googleService.maps.LatLng(
+            place.geometry.location.lat(),
+            place.geometry.location.lng()
+          ) : null
+        );
+
         // Get each component of the address from the place details,
         // and then fill-in the corresponding field on the form.
         for (var i = 0; i < place.address_components.length; i++) {

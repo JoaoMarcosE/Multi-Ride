@@ -1,10 +1,10 @@
 <template>
   <div class="page-body">
     <div class="pick-starting-place">
-      <PickLocation text="Starting Place" />
+      <PickLocation text="Starting Place" locationKey="starting" />
     </div>
     <div class="pick-destination-place">
-      <PickLocation text="Destination" />
+      <PickLocation text="Destination" locationKey="destination"/>
     </div>
     <div class="map-frame">
       <Map />
