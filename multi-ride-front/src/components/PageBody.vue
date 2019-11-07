@@ -9,16 +9,19 @@
     <div class="map-frame">
       <Map />
     </div>
+    <div class="result-frame">
+      <TravelsResult />
+    </div>
   </div>
 </template>
 
 <script>
 import PickLocation from "./PickLocation.vue";
 import Map from "./Map.vue";
-
+import TravelsResult from "./TravelsResult.vue"
 export default {
   name: "PageBody",
-  components: { PickLocation, Map },
+  components: { PickLocation, Map, TravelsResult },
   data() {
     return {};
   },

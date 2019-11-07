@@ -1,0 +1,25 @@
+UBER
+cabify
+99 taxi
+
+
+{
+	uber: {
+		timeMin: "45",
+		timeMax: "50",
+		valueMin: "14",
+		valueMax: "20"
+	},
+	cabify: {
+		timeMin: "45",
+		timeMax: "50",
+		valueMin: "14",
+		valueMax: "20"
+	},
+	99taxi: {
+		timeMin: "45",
+		timeMax: "50",
+		valueMin: "14",
+		valueMax: "20"
+	}
+}
