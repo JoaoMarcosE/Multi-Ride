@@ -27,40 +27,36 @@ public class ConexaoAPI {
 				.setRedirectUri("http://localhost")
 				.build();
 
-		com.uber.sdk.core.auth.ServerTokenAuthenticator ala = new ServerTokenAuthenticator(config);
-		
-		ala.getSessionConfiguration().
 		
 		
-		OAuth2Credentials credentials = 
+		//OAuth2Credentials credentials = 
 		
-		OAuth2Credentials credentials = new OAuth2Credentials.Builder()
-				.setSessionConfiguration(config)
-				.build();
+		//OAuth2Credentials credentials = new OAuth2Credentials.Builder()
+		//		.setSessionConfiguration(config)
+		//		.build();
 
-		String authorizationUrl = null;
-		try {
-			authorizationUrl = credentials.getAuthorizationUrl();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+//		String authorizationUrl = null;
+//		try {
+//			authorizationUrl = credentials.getAuthorizationUrl();
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
 
-		if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-		    try {
-				Desktop.getDesktop().browse(new URI(authorizationUrl));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//		    try {
+//				Desktop.getDesktop().browse(new URI(authorizationUrl));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (URISyntaxException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		
 		//Credential credential = credentials.authenticate(authorizationCode, userId); 
 		//CredentialsSession session = new CredentialsSession(config, credential);
 		//RidesService service = UberRidesApi.with(session).createService();
 		
 		//Response<TimeEstimatesResponse> response = service.getPickupTimeEstimate(37.79f, -122.39f, productId).execute()
-		}
 	}
 }

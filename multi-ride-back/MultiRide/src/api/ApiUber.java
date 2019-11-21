@@ -8,6 +8,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import interfaces.IApi;
+import interfaces.IRetornoSolicitacao;
+
 public class ApiUber implements IApi {
 
 
@@ -69,6 +72,16 @@ public class ApiUber implements IApi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public IRetornoSolicitacao ChamarAplicativo(Destino destinoInicial, Destino destinoFinal) {
+
+		DestinoUber destinoInicialUber = (DestinoUber) destinoInicial;
+		DestinoUber destinoFinalUber = (DestinoUber) destinoFinal;
+		
+		
+		return null;
 	}
 
 }
