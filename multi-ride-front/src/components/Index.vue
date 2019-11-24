@@ -2,14 +2,12 @@
   <div>
     <PageHeader />
     <PageBody />
-    <PageFooter />
   </div>
 </template>
 
 <script>
 import PageHeader from "./PageHeader.vue";
 import PageBody from "./PageBody.vue";
-import PageFooter from "./PageFooter.vue";
 
 export default {
   name: 'Index',
@@ -18,8 +16,7 @@ export default {
   },
   components: {
     PageHeader,
-    PageBody,
-    PageFooter
+    PageBody
   }
 };
 </script>

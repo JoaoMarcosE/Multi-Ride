@@ -1,20 +1,26 @@
 <template>
   <div class="travel-info">
-      <div class="container">
-          <div class="row">
-              <div class="col-2"></div>
-              <div class="col-4">
-                  <img class="app-icon" src="./../../public/uber.webp">
-              </div>
-              <div class="col-2">
-                  <span>25,00 - 30,00 reais</span>
-              </div>
-              <div class="col-2">
-                  <span>23 - 42 minutos</span>
-              </div>
-              <div class="col-2"></div>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-1">
+          <div class="col">
+            <img class="app-icon" :src="require(`@/logos/${travel.Imagem}`)" />
           </div>
+        </div>
+        <div class="col">
+          <div class="row align-items-center row-space">
+            <div class="col">
+              <span>{{travel.MenorValor}} - {{travel.MaiorValor}} reais</span>
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col">
+              <span>{{travel.MenorTempo}} - {{travel.MaiorTempo}} minutos</span>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -25,7 +31,13 @@ export default {
   data() {
     return {};
   },
-  beforeCreate() {}
+  props: ['travel'],
+  // beforeCreate() {},
+  // computed: {
+  //    imageUrl: function () {
+  //     return 'url(\'' + this.values.travel.Image, + '\')'
+  //   }
+  // }
 };
 </script>
 
@@ -37,8 +49,12 @@ export default {
 }
 
 .app-icon {
-    height: 64px;
-    width: 64px;
+  height: 64px;
+  width: 64px;
+}
+
+.row-space {
+  margin-bottom: 25px
 }
 
 @media screen and (min-width: 576px) {
