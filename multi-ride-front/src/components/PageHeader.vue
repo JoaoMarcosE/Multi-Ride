@@ -9,13 +9,19 @@
           <h1 class="logo-text">Multi-Ride</h1>
         </div>
       </div>
+      <div class="row right">
+        <History></History>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import History from "./History.vue"
+
 export default {
   name: "PageHeader",
+  components: { History },
   props: {}
 };
 </script>

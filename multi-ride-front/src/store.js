@@ -23,8 +23,6 @@ export default new Vuex.Store({
   actions: {
     async fetch_starting({ commit }, location) {
       try {
-        debugger;
-
         commit("updateStarting", location);
       } catch (e) {
         console.error(e);
@@ -32,8 +30,6 @@ export default new Vuex.Store({
     },
     async fetch_destination({ commit }, location) {
       try {
-        debugger;
-
         commit("updateDestination", location);
       } catch (e) {
         console.error(e);

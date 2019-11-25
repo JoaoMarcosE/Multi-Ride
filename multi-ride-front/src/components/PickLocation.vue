@@ -52,14 +52,6 @@ export default {
             place.geometry.location.lng()
           ) : null
         );
-
-        // Get each component of the address from the place details,
-        // and then fill-in the corresponding field on the form.
-        for (var i = 0; i < place.address_components.length; i++) {
-          var addressType = place.address_components[i].types[0];
-          var val = place.address_components[i];
-          console.log(val);
-        }
       });
     }
   }

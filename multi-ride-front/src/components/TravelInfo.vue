@@ -19,6 +19,10 @@
             </div>
           </div>
         </div>
+        <div class="col-1">
+          <a :href="travel.Url" class="btn btn-primary" role="button">Abrir</a>
+        </div>
+        <div class="col-1"></div>
       </div>
     </div>
   </div>
@@ -31,7 +35,7 @@ export default {
   data() {
     return {};
   },
-  props: ['travel'],
+  props: ["travel"]
   // beforeCreate() {},
   // computed: {
   //    imageUrl: function () {
@@ -54,7 +58,7 @@ export default {
 }
 
 .row-space {
-  margin-bottom: 25px
+  margin-bottom: 15px;
 }
 
 @media screen and (min-width: 576px) {

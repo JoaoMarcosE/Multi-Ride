@@ -47,7 +47,7 @@ export default {
 
       this.mapObj = new this.googleService.maps.Map(
         document.getElementById("map-visualizer"),
-        { zoom: 17, center: currentLocation }
+        { zoom: 17, center: currentLocation, disableDefaultUI: true }
       );
 
       this.directionsRenderer.setMap(this.mapObj);
@@ -70,8 +70,6 @@ export default {
       }
     },
     refreshRoute() {
-      console.log("refresh na rota");
-      debugger;
       if (this.startingLocation && this.destinationLocation) {
         let request = {
           origin: this.startingLocation,
@@ -80,8 +78,6 @@ export default {
         };
 
         this.directionsService.route(request, (result, status) => {
-          debugger;
-
           if (status == "OK") {
             this.directionsRenderer.setDirections(result);
           }
@@ -120,11 +116,13 @@ export default {
 #map-visualizer {
   height: 200px; /* The height is 400 pixels */
   width: 100%; /* The width is the width of the web page */
+  z-index:0;
 }
 @media print {
   #map-visualizer {
     height: 200px; /* The height is 400 pixels */
     width: 100%; /* The width is the width of the web page */
+    z-index:0;
   }
 }
 </style>
