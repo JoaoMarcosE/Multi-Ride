@@ -9,10 +9,8 @@
           <h1 class="logo-text">Multi-Ride</h1>
         </div>
       </div>
-      <div class="row right">
-        <History></History>
-      </div>
     </div>
+     <History></History>
   </div>
 </template>
 
@@ -36,6 +34,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
+  display: flex !important;
 }
 
 .center {

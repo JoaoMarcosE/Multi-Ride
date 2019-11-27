@@ -1,6 +1,18 @@
 <template>
-  <div class="travels-result">
-    <TravelInfo v-for="travel in travels" v-bind:key="travel.id" v-bind:travel="travel"></TravelInfo>
+  <div>
+    <div class="travels-result">
+      <div v-if="isLoading">
+        <b-spinner type="grow"  label="Loading..."></b-spinner>
+      </div>
+      <div v-if="!isLoading">
+        <TravelInfo
+          v-for="travel in travels"
+          v-bind:key="travel.id"
+          v-bind:travel="travel"
+          v-bind:showLink="true"
+        ></TravelInfo>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +36,8 @@ export default {
         // }
       ],
       startingLocation: null,
-      destinationLocation: null
+      destinationLocation: null,
+      isLoading: false
     };
   },
   beforeCreate() {},
@@ -42,11 +55,12 @@ export default {
   methods: {
     refreshValues() {
       console.log("refresh nos valores");
-      debugger;
       if (this.startingLocation && this.destinationLocation) {
+        this.isLoading = true;
         // axios.post("/user", {
         //   start: this.startingLocation,
         //   destination: this.destinationLocation
+        // this.isLoading = false;
         // })
         // .then(function(response) {
         //   console.log(response);
@@ -62,9 +76,11 @@ export default {
             MenorTempo: 15,
             MaiorTempo: 25,
             id: 1,
-            Url: "https://m.uber.com/ul/?action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d#"
+            Url:
+              "https://m.uber.com/ul/?action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d#"
           }
         ];
+        this.isLoading = false;
       } else {
         //sem as duas posições, então esconde o resultado
         this.hideResult();

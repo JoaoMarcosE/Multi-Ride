@@ -2,7 +2,7 @@
   <div class="travel-info">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-1">
+        <div class="col">
           <div class="col">
             <img class="app-icon" :src="require(`@/logos/${travel.Imagem}`)" />
           </div>
@@ -19,10 +19,10 @@
             </div>
           </div>
         </div>
-        <div class="col-1">
-          <a :href="travel.Url" class="btn btn-primary" role="button">Abrir</a>
+        <div v-if="showLink" class="col-1">
+          <a class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
         </div>
-        <div class="col-1"></div>
+        <div  v-if="showLink" class="col-1"></div>
       </div>
     </div>
   </div>
@@ -35,7 +35,24 @@ export default {
   data() {
     return {};
   },
-  props: ["travel"]
+  props: ["travel", "showLink"],
+  methods: {
+    addToHistory() {
+      let historyRecords = [];
+      let storageHistory = JSON.parse(localStorage.getItem("history"));
+      if (storageHistory) historyRecords.push(storageHistory);
+
+      historyRecords.push({
+        Imagem: this.travel.Imagem,
+        MenorValor: this.travel.MenorValor,
+        MaiorValor: this.travel.MaiorValor,
+        MenorTempo: this.travel.MenorTempo,
+        MaiorTempo: this.travel.MaiorTempo,
+        id: this.travel.id
+      });
+      localStorage.setItem("history", JSON.stringify(historyRecords));
+    }
+  }
   // beforeCreate() {},
   // computed: {
   //    imageUrl: function () {
