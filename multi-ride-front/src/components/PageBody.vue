@@ -36,6 +36,10 @@ export default {
   margin-top: 134px;
 }
 
+.result-frame {
+  margin-bottom: 30px;
+}
+
 @media screen and (min-width: 576px) {
   .page-body {
     width: 100%;
