@@ -10,12 +10,12 @@
         </div>
       </div>
     </div>
-     <History></History>
+    <History></History>
   </div>
 </template>
 
 <script>
-import History from "./History.vue"
+import History from "./History.vue";
 
 export default {
   name: "PageHeader",
@@ -35,6 +35,7 @@ export default {
   top: 0;
   width: 100%;
   display: flex !important;
+  align-items: center;
 }
 
 .center {
@@ -44,8 +45,7 @@ export default {
 }
 
 .logo-text h1 {
-font-size: 22px;
-
+  font-size: 22px;
 }
 .logo-img img {
   height: 64px;

@@ -1,18 +1,18 @@
 <template>
   <!---->
   <div>
-    <b-button class="historyButton" @click="showHistory" ><unicon name="history" fill="blue"></unicon></b-button>
-     
-    <b-modal
-      id="historyModal"
-      title="History"
-      hide-footer
-      size="xl"
-      v-b-modal.modal-scrollable
-      v-b-modal.modal-center
-    >
+    <b-button class="historyButton" @click="showHistory">
+      <unicon name="history" fill="blue"></unicon>
+    </b-button>
+
+    <b-modal id="historyModal" title="History" hide-footer size="xl" scrollable centered>
       <div v-if="!isLoading && historyRecords.length > 0">
-        <TravelInfo v-for="travel in historyRecords" v-bind:key="travel.id" v-bind:travel="travel" v-bind:showLink="false"></TravelInfo>
+        <TravelInfo
+          v-for="travel in historyRecords"
+          v-bind:key="travel.id"
+          v-bind:travel="travel"
+          v-bind:showLink="false"
+        ></TravelInfo>
       </div>
       <div v-if="!isLoading && historyRecords.length === 0">
         <span>Parece que você ainda não fez nenhuma viagem!</span>
@@ -27,19 +27,25 @@ import TravelInfo from "./TravelInfo.vue";
 export default {
   name: "History",
   props: {},
-  components: {TravelInfo},
+  components: { TravelInfo },
   data() {
     return { modalIsOpen: false, isLoading: true, historyRecords: [] };
   },
   methods: {
     showHistory() {
-      debugger;
       this.isLoading = true;
       this.$bvModal.show("historyModal");
 
       this.historyRecords = [];
-      let storageHistory = JSON.parse(localStorage.getItem("history"));
-      if (storageHistory) this.historyRecords.push(storageHistory[0]);
+      let localSto = localStorage.getItem("history");
+      if (localSto) {
+        let storageHistory = JSON.parse(localSto);
+        if (storageHistory) {
+          storageHistory.forEach((val, key) => {
+            this.historyRecords.push(val);
+          });
+        }
+      }
 
       this.isLoading = false;
     }

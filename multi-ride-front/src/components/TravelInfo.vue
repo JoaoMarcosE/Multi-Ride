@@ -2,15 +2,13 @@
   <div class="travel-info">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col">
-          <div class="col">
+        <div class="col-3">
             <img class="app-icon" :src="require(`@/logos/${travel.Imagem}`)" />
-          </div>
         </div>
         <div class="col">
           <div class="row align-items-center row-space">
             <div class="col">
-              <span>{{travel.MenorValor}} - {{travel.MaiorValor}} reais</span>
+              <span>R$ {{travel.MenorValor}} - R$ {{travel.MaiorValor}}</span>
             </div>
           </div>
           <div class="row align-items-center">
@@ -20,9 +18,9 @@
           </div>
         </div>
         <div v-if="showLink" class="col-1">
-          <a class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
+          <a :href="travel.Url" class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
         </div>
-        <div  v-if="showLink" class="col-1"></div>
+        <div v-if="showLink" class="col-2"></div>
       </div>
     </div>
   </div>
@@ -39,8 +37,16 @@ export default {
   methods: {
     addToHistory() {
       let historyRecords = [];
-      let storageHistory = JSON.parse(localStorage.getItem("history"));
-      if (storageHistory) historyRecords.push(storageHistory);
+      let localSto = localStorage.getItem("history");
+
+      if (localSto) {
+        let storageHistory = JSON.parse(localSto);
+        if (storageHistory) {
+          storageHistory.forEach((val, key) => {
+            historyRecords.push(val);
+          });
+        }
+      }
 
       historyRecords.push({
         Imagem: this.travel.Imagem,
