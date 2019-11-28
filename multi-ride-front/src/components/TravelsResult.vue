@@ -2,7 +2,7 @@
   <div>
     <div class="travels-result">
       <div v-if="isLoading">
-        <b-spinner type="grow"  label="Loading..."></b-spinner>
+        <b-spinner type="grow" label="Loading..."></b-spinner>
       </div>
       <div v-if="!isLoading">
         <TravelInfo
@@ -19,6 +19,7 @@
 <script>
 import TravelInfo from "./TravelInfo.vue";
 import { mapState } from "vuex";
+import random from "random";
 
 export default {
   name: "TravelsResult",
@@ -68,14 +69,17 @@ export default {
         // .catch(function(error) {
         //   console.log(error);
         // });
+        debugger;
+        let menorValor = random.float(10, 50);
+        let menorTempo = random.int(5, 20);
         this.travels = [
           {
             Imagem: "uber.webp",
-            MenorValor: "25,00",
-            MaiorValor: "45,00",
-            MenorTempo: 15,
-            MaiorTempo: 25,
-            id: Math.floor((Math.random() * 100000) + 1),
+            MenorValor: this.formatMoneyValue(menorValor),
+            MaiorValor: this.formatMoneyValue(random.float(menorValor + 1, menorValor + 12)),
+            MenorTempo: menorTempo,
+            MaiorTempo: random.int(menorTempo + 3, menorTempo + 17),
+            id: random.int(1, 99999999),
             Url: `https://m.uber.com/ul/?action=setPickup&pickup[latitude]=${this.startingLocation.lat()}&pickup[longitude]=${this.startingLocation.lng()}&dropoff[latitude]=${this.destinationLocation.lat()}&dropoff[longitude]=${this.destinationLocation.lng()}`
           }
         ];
@@ -87,6 +91,9 @@ export default {
     },
     hideResult() {
       this.travels = [];
+    },
+    formatMoneyValue(val) {
+      return ("" + val.toFixed(2)).replace(".", ",");
     }
   }
 };

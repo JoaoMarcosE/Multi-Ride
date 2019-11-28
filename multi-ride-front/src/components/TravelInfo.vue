@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-3">
-            <img class="app-icon" :src="require(`@/logos/${travel.Imagem}`)" />
+          <img class="app-icon" :src="require(`@/logos/${travel.Imagem}`)" />
         </div>
         <div class="col">
           <div class="row align-items-center row-space">
@@ -27,15 +27,21 @@
 </template>
 
 <script>
+import random from "random";
+
 export default {
   name: "TravelInfo",
   components: {},
   data() {
-    return {};
+    return {
+      alreadyAdded: false
+    };
   },
   props: ["travel", "showLink"],
   methods: {
     addToHistory() {
+      if (this.alreadyAdded) return;
+
       let historyRecords = [];
       let localSto = localStorage.getItem("history");
 
@@ -57,6 +63,7 @@ export default {
         id: this.travel.id
       });
       localStorage.setItem("history", JSON.stringify(historyRecords));
+      this.alreadyAdded = true;
     }
   }
   // beforeCreate() {},
