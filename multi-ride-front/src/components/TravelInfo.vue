@@ -11,14 +11,19 @@
               <span>R$ {{travel.MenorValor}} - R$ {{travel.MaiorValor}}</span>
             </div>
           </div>
-          <div class="row align-items-center">
+          <!-- <div class="row align-items-center">
             <div class="col">
               <span>{{travel.MenorTempo}} - {{travel.MaiorTempo}} minutos</span>
+            </div>
+          </div> -->
+              <div class="row align-items-center">
+            <div class="col">
+              <span><b>{{travel.Tipo}}</b></span>
             </div>
           </div>
         </div>
         <div v-if="showLink" class="col-1">
-          <a :href="travel.Url" class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
+          <a href="#" class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
         </div>
         <div v-if="showLink" class="col-2"></div>
       </div>
@@ -27,7 +32,6 @@
 </template>
 
 <script>
-import random from "random";
 
 export default {
   name: "TravelInfo",
@@ -48,7 +52,7 @@ export default {
       if (localSto) {
         let storageHistory = JSON.parse(localSto);
         if (storageHistory) {
-          storageHistory.forEach((val, key) => {
+          storageHistory.forEach((val) => {
             historyRecords.push(val);
           });
         }
@@ -60,10 +64,12 @@ export default {
         MaiorValor: this.travel.MaiorValor,
         MenorTempo: this.travel.MenorTempo,
         MaiorTempo: this.travel.MaiorTempo,
-        id: this.travel.id
+        id: this.travel.id,
+        Tipo: this.travel.Tipo
       });
       localStorage.setItem("history", JSON.stringify(historyRecords));
       this.alreadyAdded = true;
+      window.location.href = this.travel.Url
     }
   }
   // beforeCreate() {},

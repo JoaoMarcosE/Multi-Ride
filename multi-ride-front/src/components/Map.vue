@@ -34,7 +34,7 @@ export default {
   },
   mounted() {
     GoogleMapsLoader.LIBRARIES = ["places"];
-    GoogleMapsLoader.KEY = localStorage.getItem("keyGoogleAPI");
+    GoogleMapsLoader.KEY = "AIzaSyBRKr3BmJcYv6quZCnJ67h7aClP3psOl4k";//localStorage.getItem("keyGoogleAPI");
     GoogleMapsLoader.load(google => {
       this.googleService = google;
       this.initializeMap();
