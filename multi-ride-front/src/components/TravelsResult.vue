@@ -1,16 +1,19 @@
 <template>
   <div>
     <div class="travels-result">
-      <div v-if="isLoading">
+      <div v-if="isLoading && !isError">
         <b-spinner type="grow" label="Loading..."></b-spinner>
       </div>
-      <div v-if="!isLoading">
+      <div v-if="!isLoading && !isError">
         <TravelInfo
           v-for="travel in travels"
           v-bind:key="travel.id"
           v-bind:travel="travel"
           v-bind:showLink="true"
         ></TravelInfo>
+      </div>
+      <div v-if="isError">
+        <h2>Ocorreu um erro ao carregar as informações, tente novamente mais tarde.</h2>
       </div>
     </div>
   </div>
@@ -35,12 +38,15 @@ export default {
         //   MaiorValor: "45,00",
         //   MenorTempo: 15,
         //   MaiorTempo: 25,
-        //   id: 1
+        //   id: 1,
+        //   Tipo: "Uber X",
+        //   Url: url
         // }
       ],
       startingLocation: null,
       destinationLocation: null,
-      isLoading: false
+      isLoading: false,
+      isError: false
     };
   },
   beforeCreate() {},
@@ -59,52 +65,54 @@ export default {
     refreshValues() {
       if (this.startingLocation && this.destinationLocation) {
         this.isLoading = true;
+        this.isError = false;
         let jobject = {
-          pickupLat: this.startingLocation.lat(),
-          pickupLng: this.startingLocation.lng(),
-          dropoffLat: this.destinationLocation.lat(),
-          dropoffLng: this.destinationLocation.lng()
+          PickupLat: this.startingLocation.lat(),
+          PickupLng: this.startingLocation.lng(),
+          DropoffLat: this.destinationLocation.lat(),
+          DropoffLng: this.destinationLocation.lng()
         };
         console.log(jobject);
-        // $.post("http://10.13.37.124:8080/WSMultiride/app", jobject)
-        //   .done(function(data) {
-        //     debugger;
-        //     alert("Data Loaded: " + data);
-        //   })
-        //   .fail(function(error) {
-        //     debugger;
-        //   });
-        // axios
-        //   .post("http://10.13.37.124:8080/WSMultiride/app", jobject)
-        //   .then(function(response) {
-        //     debugger;
-        //     console.log(response);
-        //   })
-        //   .catch(function(error) {
-        //     debugger;
-        //     console.log(error);
-        //   });
 
-        let menorValor = random.float(10, 50);
-        let menorTempo = random.int(5, 20);
-        let isUber = true;
-        this.travels = [
-          {
-            Imagem: "uber.webp",
-            MenorValor: this.formatMoneyValue(menorValor),
-            MaiorValor: this.formatMoneyValue(
-              random.float(menorValor + 1, menorValor + 12)
-            ),
-            MenorTempo: menorTempo,
-            MaiorTempo: random.int(menorTempo + 3, menorTempo + 17),
-            id: random.int(1, 99999999),
-            Tipo: "Car Pool",
-            Url: isUber
-              ? `https://m.uber.com/ul/?action=setPickup&pickup[latitude]=${this.startingLocation.lat()}&pickup[longitude]=${this.startingLocation.lng()}&dropoff[latitude]=${this.destinationLocation.lat()}&dropoff[longitude]=${this.destinationLocation.lng()}`
-              : ""
+        //Search for the itens
+        $.ajax({
+          url: "https://192.168.15.15:44370/EstimateTravel/Estimate",
+          contentType: "application/json; charset=UTF-8",
+          data: JSON.stringify(jobject),
+          dataType: "json",
+          timeout: 300000,
+          type: "POST",
+          success: result => {
+            console.log(result);
+            this.travels = [];
+
+            for (var index in result) {
+              let element = result[index];
+
+              let isUber = element.Imagem == "uber.webp";
+              this.travels.push({
+                Imagem: element.Imagem,
+                MenorValor: this.formatMoneyValue(element.MenorValor),
+                MaiorValor: this.formatMoneyValue(element.MaiorValor),
+                MenorTempo: element.MenorTempo,
+                MaiorTempo: element.MaiorTempo,
+                id: random.int(1, 99999999),
+                Tipo: element.Tipo,
+                Url: isUber
+                  ? `https://m.uber.com/ul/?action=setPickup&pickup[latitude]=${this.startingLocation.lat()}&pickup[longitude]=${this.startingLocation.lng()}&dropoff[latitude]=${this.destinationLocation.lat()}&dropoff[longitude]=${this.destinationLocation.lng()}`
+                  : ""
+              });
+            }
+            this.isLoading = false;
+          },
+          error: (xhr, status, error) => {
+            console.log(xhr);
+            console.log(status);
+            console.log(error);
+            this.isLoading = false;
+            this.isError = true;
           }
-        ];
-        this.isLoading = false;
+        });
       } else {
         //sem as duas posições, então esconde o resultado
         this.hideResult();
