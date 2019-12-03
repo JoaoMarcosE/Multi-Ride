@@ -22,10 +22,10 @@
             </div>
           </div>
         </div>
-        <div v-if="showLink" class="col-1">
+        <div v-if="showLink && travel.Url" class="col-1">
           <a href="#" class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
         </div>
-        <div v-if="showLink" class="col-2"></div>
+        <div v-if="showLink && travel.Url" class="col-2"></div>
       </div>
     </div>
   </div>
