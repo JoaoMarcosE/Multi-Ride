@@ -50,8 +50,15 @@ namespace WebServiceTeste.Controllers
             myProcess.StartInfo.Arguments = @"-jar " + appPath;
             myProcess.Start();
 
+            int iLoops = 0;
             while (!System.IO.File.Exists(resultPath))
+            {
                 Thread.Sleep(250);
+                iLoops += 1;
+                if (iLoops >= 500)
+                    throw new TimeoutException("Exceção o tempo limite de buscar dados de viagem");
+
+            }
 
             Newtonsoft.Json.Linq.JArray results = Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(System.IO.File.ReadAllText(resultPath));
 
