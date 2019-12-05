@@ -76,7 +76,7 @@ export default {
 
         //Search for the itens
         $.ajax({
-          url: "https://192.168.43.47:44370/EstimateTravel/Estimate",
+          url: "https://192.168.15.15:44370/EstimateTravel/Estimate",
           contentType: "application/json; charset=UTF-8",
           data: JSON.stringify(jobject),
           dataType: "json",

@@ -26,6 +26,7 @@
           <a href="#" class="btn btn-primary" role="button" @click="addToHistory">Abrir</a>
         </div>
         <div v-if="showLink && travel.Url" class="col-2"></div>
+        <div v-if="showLink && !travel.Url" class="col-3"></div>
       </div>
     </div>
   </div>
