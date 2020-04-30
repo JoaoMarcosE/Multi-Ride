@@ -16,7 +16,7 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^2.6.5",
     "google-maps": "^3.3.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.15.0",
     "random": "^2.1.1",
     "vue": "^2.6.10",
